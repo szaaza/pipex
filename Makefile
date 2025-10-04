@@ -1,3 +1,4 @@
+
 NAME = pipex
 
 CC = cc
@@ -8,7 +9,8 @@ SRCS = pipex.c \
        execute.c \
        utils.c \
        ft_strjoin.c \
-       ft_split.c
+       ft_split.c \
+       ft_strdup.c
 
 OBJS = $(SRCS:.c=.o)
 

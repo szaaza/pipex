@@ -1,48 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/04 11:33:48 by codespace         #+#    #+#             */
-/*   Updated: 2025/10/04 17:31:37 by codespace        ###   ########.fr       */
+/*   Created: 2025/10/04 17:28:22 by codespace         #+#    #+#             */
+/*   Updated: 2025/10/04 17:28:29 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_putstr_fd(char *s, int fd)
+static size_t	ft_strlen(const char *s)
 {
-	int	i;
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+char	*ft_strdup(const char *s)
+{
+	char	*str;
+	size_t	i;
 
 	if (!s)
-		return ;
+		return (NULL);
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1));
+	if (!str)
+		return (NULL);
 	i = 0;
 	while (s[i])
 	{
-		write(fd, &s[i], 1);
+		str[i] = s[i];
 		i++;
 	}
-}
-
-void	error_exit(char *msg)
-{
-	perror(msg);
-	exit(1);
-}
-
-void	free_array(char **arr)
-{
-	int	i;
-
-	if (!arr)
-		return ;
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
+	str[i] = '\0';
+	return (str);
 }

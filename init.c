@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 11:38:57 by codespace         #+#    #+#             */
-/*   Updated: 2025/10/04 14:31:43 by codespace        ###   ########.fr       */
+/*   Updated: 2025/10/04 17:29:15 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ char	**get_paths(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		if (envp[i][0] == 'P' && envp[i][1] == 'A' && 
-			envp[i][2] == 'T' && envp[i][3] == 'H' && envp[i][4] == '=')
+		if (envp[i][0] == 'P' && envp[i][1] == 'A'
+			&& envp[i][2] == 'T' && envp[i][3] == 'H'
+			&& envp[i][4] == '=')
 		{
 			path_line = envp[i] + 5;
 			paths = ft_split(path_line, ':');
@@ -42,7 +43,7 @@ char	*find_command_path(char *cmd, char **paths)
 	if (!cmd || !paths)
 		return (NULL);
 	if (access(cmd, X_OK) == 0)
-		return (cmd);
+		return (ft_strdup(cmd));
 	i = 0;
 	while (paths[i])
 	{
@@ -65,23 +66,22 @@ void	init_pipex(t_pipex *pipex, char **argv, char **envp)
 	pipex->cmd1_args = ft_split(argv[2], ' ');
 	pipex->cmd2_args = ft_split(argv[3], ' ');
 	if (!pipex->cmd1_args || !pipex->cmd1_args[0])
-		error_exit("Command 1 parsing error");
-	if (!pipex->cmd2_args || !pipex->cmd2_args[0])
-		error_exit("Command 2 parsing error");
-	pipex->cmd1_path = find_command_path(pipex->cmd1_args[0], pipex->paths);
-	pipex->cmd2_path = find_command_path(pipex->cmd2_args[0], pipex->paths);
-	if (!pipex->cmd1_path)
 	{
-		ft_putstr_fd("Command not found: ", 2);
-		ft_putstr_fd(pipex->cmd1_args[0], 2);
-		ft_putstr_fd("\n", 2);
+		ft_putstr_fd("pipex: command not found\n", 2);
 		exit(127);
 	}
-	if (!pipex->cmd2_path)
+	if (!pipex->cmd2_args || !pipex->cmd2_args[0])
 	{
-		ft_putstr_fd("Command not found: ", 2);
-		ft_putstr_fd(pipex->cmd2_args[0], 2);
-		ft_putstr_fd("\n", 2);
+		ft_putstr_fd("pipex: command not found\n", 2);
+		exit(127);
+	}
+	pipex->cmd1_path = find_command_path(pipex->cmd1_args[0],
+			pipex->paths);
+	pipex->cmd2_path = find_command_path(pipex->cmd2_args[0],
+			pipex->paths);
+	if (!pipex->cmd1_path || !pipex->cmd2_path)
+	{
+		ft_putstr_fd("pipex: command not found\n", 2);
 		exit(127);
 	}
 }

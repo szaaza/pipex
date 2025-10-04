@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 11:30:52 by codespace         #+#    #+#             */
-/*   Updated: 2025/10/04 14:20:59 by codespace        ###   ########.fr       */
+/*   Updated: 2025/10/04 17:29:35 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@ void	child_process(t_pipex *pipex, char **envp)
 	close(pipex->pipe_fd[0]);
 	if (pipex->infile == -1)
 	{
-		perror("Error opening infile");
+		close(pipex->pipe_fd[1]);
+		perror("Error");
 		exit(1);
 	}
-	dup2(pipex->infile, STDIN_FILENO);
-	dup2(pipex->pipe_fd[1], STDOUT_FILENO);
+	if (dup2(pipex->infile, STDIN_FILENO) == -1)
+		error_exit("dup2");
+	if (dup2(pipex->pipe_fd[1], STDOUT_FILENO) == -1)
+		error_exit("dup2");
 	close(pipex->infile);
 	close(pipex->pipe_fd[1]);
 	execute_command(pipex->cmd1_path, pipex->cmd1_args, envp);
@@ -32,11 +35,14 @@ void	parent_process(t_pipex *pipex, char **envp)
 	close(pipex->pipe_fd[1]);
 	if (pipex->outfile == -1)
 	{
-		perror("Error opening outfile");
+		close(pipex->pipe_fd[0]);
+		perror("Error");
 		exit(1);
 	}
-	dup2(pipex->pipe_fd[0], STDIN_FILENO);
-	dup2(pipex->outfile, STDOUT_FILENO);
+	if (dup2(pipex->pipe_fd[0], STDIN_FILENO) == -1)
+		error_exit("dup2");
+	if (dup2(pipex->outfile, STDOUT_FILENO) == -1)
+		error_exit("dup2");
 	close(pipex->pipe_fd[0]);
 	close(pipex->outfile);
 	execute_command(pipex->cmd2_path, pipex->cmd2_args, envp);
