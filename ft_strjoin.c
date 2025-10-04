@@ -1,48 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/04 11:33:48 by codespace         #+#    #+#             */
-/*   Updated: 2025/10/04 14:22:42 by codespace        ###   ########.fr       */
+/*   Created: 2025/10/04 14:23:55 by codespace         #+#    #+#             */
+/*   Updated: 2025/10/04 14:23:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_putstr_fd(char *s, int fd)
+static size_t	ft_strlen(const char *s)
 {
-	int	i;
+	size_t	i;
 
-	if (!s)
-		return ;
 	i = 0;
 	while (s[i])
-	{
-		write(fd, &s[i], 1);
 		i++;
-	}
+	return (i);
 }
 
-void	error_exit(char *msg)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	perror(msg);
-	exit(1);
-}
+	char	*str;
+	size_t	i;
+	size_t	j;
 
-void	free_array(char **arr)
-{
-	int	i;
-
-	if (!arr)
-		return ;
+	if (!s1 || !s2)
+		return (NULL);
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!str)
+		return (NULL);
 	i = 0;
-	while (arr[i])
+	while (s1[i])
 	{
-		free(arr[i]);
+		str[i] = s1[i];
 		i++;
 	}
-	free(arr);
+	j = 0;
+	while (s2[j])
+	{
+		str[i + j] = s2[j];
+		j++;
+	}
+	str[i + j] = '\0';
+	return (str);
 }

@@ -1,26 +1,30 @@
 NAME = pipex
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-LIBFT = ./libft/libft.a
-SRC = main.c process.c
-OBJ = $(SRC:.c=.o)
-HEADER = pipex.h
+
+SRCS = pipex.c \
+       init.c \
+       execute.c \
+       utils.c \
+       ft_strjoin.c \
+       ft_split.c
+
+OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-$(LIBFT):
-	@$(MAKE) -C ./libft
+%.o: %.c pipex.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ)
-	@$(MAKE) -C ./libft clean
+	rm -f $(OBJS)
 
 fclean: clean
 	rm -f $(NAME)
-	@$(MAKE) -C ./libft fclean
 
 re: fclean all
 
