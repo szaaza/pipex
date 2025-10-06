@@ -6,21 +6,21 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 11:38:01 by codespace         #+#    #+#             */
-/*   Updated: 2025/10/04 17:30:28 by codespace        ###   ########.fr       */
+/*   Updated: 2025/10/04 17:36:42 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static size_t	ft_strlen(const char *s)
-{
-	size_t	i;
+// static size_t	ft_strlen(const char *s)
+// {
+// 	size_t	i;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
+// 	i = 0;
+// 	while (s[i])
+// 		i++;
+// 	return (i);
+// }
 
 static int	count_words(char const *s, char c)
 {

@@ -1,32 +1,22 @@
-
-NAME = pipex
-
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
-
-SRCS = pipex.c \
-       init.c \
-       execute.c \
-       utils.c \
-       ft_strjoin.c \
-       ft_split.c \
-       ft_strdup.c
-
-OBJS = $(SRCS:.c=.o)
+NAME 				= pipex
+SRCS 				= main.c string_utils.c split_utils.c io_utils.c
+CFLAGS	 			= -Wall -Werror -Wextra
+OBJS        	       	= $(SRCS:.c=.o)
+CC 				= cc
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-%.o: %.c pipex.h
-	$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.c
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -f $(OBJS)
-
+	rm -rf $(OBJS)
+	
 fclean: clean
-	rm -f $(NAME)
+	rm -rf $(NAME)
 
 re: fclean all
 

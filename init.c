@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 11:38:57 by codespace         #+#    #+#             */
-/*   Updated: 2025/10/04 17:29:15 by codespace        ###   ########.fr       */
+/*   Updated: 2025/10/04 17:44:13 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ char	*find_command_path(char *cmd, char **paths)
 	char	*path;
 	char	*tmp;
 
-	if (!cmd || !paths)
+	if (!cmd)
 		return (NULL);
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
+	if (!paths)
+		return (NULL);
 	i = 0;
 	while (paths[i])
 	{
@@ -65,23 +67,16 @@ void	init_pipex(t_pipex *pipex, char **argv, char **envp)
 	pipex->paths = get_paths(envp);
 	pipex->cmd1_args = ft_split(argv[2], ' ');
 	pipex->cmd2_args = ft_split(argv[3], ' ');
-	if (!pipex->cmd1_args || !pipex->cmd1_args[0])
+	pipex->cmd1_path = NULL;
+	pipex->cmd2_path = NULL;
+	if (pipex->cmd1_args && pipex->cmd1_args[0])
 	{
-		ft_putstr_fd("pipex: command not found\n", 2);
-		exit(127);
+		pipex->cmd1_path = find_command_path(pipex->cmd1_args[0],
+				pipex->paths);
 	}
-	if (!pipex->cmd2_args || !pipex->cmd2_args[0])
+	if (pipex->cmd2_args && pipex->cmd2_args[0])
 	{
-		ft_putstr_fd("pipex: command not found\n", 2);
-		exit(127);
-	}
-	pipex->cmd1_path = find_command_path(pipex->cmd1_args[0],
-			pipex->paths);
-	pipex->cmd2_path = find_command_path(pipex->cmd2_args[0],
-			pipex->paths);
-	if (!pipex->cmd1_path || !pipex->cmd2_path)
-	{
-		ft_putstr_fd("pipex: command not found\n", 2);
-		exit(127);
+		pipex->cmd2_path = find_command_path(pipex->cmd2_args[0],
+				pipex->paths);
 	}
 }
