@@ -6,40 +6,39 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 11:28:27 by codespace         #+#    #+#             */
-/*   Updated: 2025/10/04 17:30:00 by codespace        ###   ########.fr       */
+/*   Updated: 2025/10/09 22:01:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
-
-# include <unistd.h>
-# include <stdlib.h>
 # include <fcntl.h>
-# include <sys/wait.h>
 # include <stdio.h>
+# include <stdlib.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
-typedef struct s_pipex
-{
-	int		infile;
-	int		outfile;
-	int		pipe_fd[2];
-	char	**paths;
-	char	**cmd1_args;
-	char	**cmd2_args;
-	char	*cmd1_path;
-	char	*cmd2_path;
-}	t_pipex;
+# define RED "\x1B[31m"
 
-void	ft_putstr_fd(char *s, int fd);
-char	*ft_strjoin(char const *s1, char const *s2);
+/* Libft functions - names unchanged */
+void	*ft_calloc(size_t count, size_t size);
+size_t	ft_total_words(char const *str, char c1);
+int		search_str(char c, char const *s, char **array);
 char	**ft_split(char const *s, char c);
-char	*ft_strdup(const char *s);
-void	free_array(char **arr);
-void	error_exit(char *msg);
-void	init_pipex(t_pipex *pipex, char **argv, char **envp);
-char	*find_command_path(char *cmd, char **paths);
-void	execute_command(char *cmd_path, char **cmd_args, char **envp);
-void	cleanup_pipex(t_pipex *pipex);
+size_t	ft_strlen(const char *str);
+char	*ft_strjoin(char const *s1, char const *s2);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		free_str2(char **str2, int k1);
+void	ft_freestr(char **str1, int i1);
+void	ft_putendl_fd(char *s, int fd);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_error(void);
+
+/* Pipex core functions - refactored names */
+char	*find_executable_path(char *path_env, char **cmd_args, int index);
+void	execute_command(char *command, char **envp, int env_index);
+void	execute_first_command(int pipe_fds[], char **argv, char **envp);
+void	execute_second_command(int pipe_fds[], char **argv, char **envp);
 
 #endif
