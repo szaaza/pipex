@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 11:30:52 by codespace         #+#    #+#             */
-/*   Updated: 2025/10/09 21:42:04 by codespace        ###   ########.fr       */
+/*   Updated: 2025/10/09 22:06:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,9 @@ void	execute_second_command(int pipe_fds[], char **argv, char **envp)
 	else
 		exit(1);
 }
+
+
+
 
 int	main(int argc, char **argv, char **envp)
 {
