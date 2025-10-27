@@ -34,6 +34,8 @@ char	*find_executable_path(char *path_env, char **cmd_args, int index)
 	}
 	ft_freestr(path_directories, 0);
 	return (cmd_args[0]);
+
+	
 }
 
 void	execute_command(char *command, char **envp, int env_index)
